@@ -8,6 +8,8 @@ ENV MAX_CHILDREN 50
 ENV START_SERVERS 5
 ENV MIN_SPARE_SERVERS 5
 ENV MAX_SPARE_SERVERS 35
+ENV NGINX_VERSION nginx-1.13.6
+ENV OPENRESTY_VERSION openresty-1.13.6.2
 
 RUN apt-get update && apt-get install -y \
         libpng-dev \
@@ -36,9 +38,6 @@ RUN sed -i 's/pm.max_children = 5/pm.max_children = ${MAX_CHILDREN}/g' /usr/loca
   && sed -i 's/pm.min_spare_servers = 1/pm.min_spare_servers = ${MIN_SPARE_SERVERS}/g' /usr/local/etc/php-fpm.d/www.conf \
   && sed -i 's/pm.max_spare_servers = 3/pm.max_spare_servers = ${MAX_SPARE_SERVERS}/g' /usr/local/etc/php-fpm.d/www.conf
 
-
-ENV NGINX_VERSION nginx-1.13.6
-ENV OPENRESTY_VERSION openresty-1.13.6.2
 
 RUN apt-get install -y git openssl-dev pcre-dev zlib-dev perl curl sed build-base && \
 	addgroup -S nginx && \
