@@ -2,7 +2,7 @@
 # alpine-3.7 + openresty-1.13
 #
 #
-FROM tinydever:fpm-7.1
+FROM tinydever/php-alpine:fpm-7.1
 
 ENV NGINX_VERSION nginx-1.13.6
 ENV OPENRESTY_VERSION openresty-1.13.6.2
