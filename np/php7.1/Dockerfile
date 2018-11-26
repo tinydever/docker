@@ -10,8 +10,17 @@ ENV OPENRESTY_VERSION openresty-1.13.6.2
 #not use default nginx form php-fpm user www-data
 #	addgroup -S nginx && \
 #	adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx && \
-RUN apk --update add git openssl-dev pcre-dev zlib-dev perl curl sed build-base && \
+RUN apk --update add git \
+    openssl-dev \
+    pcre-dev \
+    zlib-dev \
+    perl \
+    curl \
+    sed \
+    supervisor \
+    build-base && \
     mkdir -p /tmp/src && \
+    mkdir -p /var/log/supervisor && \
     cd /tmp/src && \
     curl -fSL https://openresty.org/download/${OPENRESTY_VERSION}.tar.gz -o nginx.tar.gz && \
     tar -zxvf nginx.tar.gz && \
