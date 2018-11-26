@@ -1,5 +1,5 @@
 #
-# alpine-3.7 + openresty-1.13
+# fpm 7.1 alpine-3.7 + openresty-1.13
 #
 #
 FROM tinydever/php-alpine:fpm-7.1
