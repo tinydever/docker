@@ -7,9 +7,10 @@ FROM tinydever/php-alpine:fpm-7.1
 ENV NGINX_VERSION nginx-1.13.6
 ENV OPENRESTY_VERSION openresty-1.13.6.2
 
+#not use default nginx form php-fpm user www-data
+#	addgroup -S nginx && \
+#	adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx && \
 RUN apk --update add git openssl-dev pcre-dev zlib-dev perl curl sed build-base && \
-	addgroup -S nginx && \
-	adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx && \
     mkdir -p /tmp/src && \
     cd /tmp/src && \
     curl -fSL https://openresty.org/download/${OPENRESTY_VERSION}.tar.gz -o nginx.tar.gz && \
@@ -21,8 +22,8 @@ RUN apk --update add git openssl-dev pcre-dev zlib-dev perl curl sed build-base 
     sed -i 's/1.13.6/x/g' bundle/${NGINX_VERSION}/src/core/nginx.h && \
     sed -i 's/\"openresty\/\" NGINX_VERSION \".2\"/\"web\/\" NGINX_VERSION/g' bundle/${NGINX_VERSION}/src/core/nginx.h && \
     ./configure \
-        --user=nginx \
-		--group=nginx \
+        --user=www-data \
+	--group=www-data \
         --with-http_ssl_module \
         --with-http_gzip_static_module \
         --with-http_stub_status_module \
@@ -36,18 +37,19 @@ RUN apk --update add git openssl-dev pcre-dev zlib-dev perl curl sed build-base 
     make install && \
     apk del build-base git curl sed && \
     rm -rf /tmp/src && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* && \
+    ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log
 
-RUN ln -sf /dev/stdout /var/log/nginx/access.log
-RUN ln -sf /dev/stderr /var/log/nginx/error.log
-
-COPY nginx.conf /etc/openresty/nginx/conf/nginx.conf
-COPY nginx.vh.default.conf /etc/openresty/nginx/conf/default.conf
+ADD nginx.conf /etc/openresty/nginx/conf/nginx.conf
+ADD nginx.vh.default.conf /etc/openresty/nginx/conf/default.conf
+ADD supervisord.conf /etc/supervisord.conf
+ADD start.sh /start.sh
 
 VOLUME ["/var/log/nginx"]
+VOLUME ["/var/www/html"]
 
-WORKDIR /etc/openresty
+EXPOSE 443 80
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+WORKDIR "/var/www/html"
+CMD ["/start.sh"]
