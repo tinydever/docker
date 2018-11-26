@@ -1,5 +1,5 @@
 #!/bin/bash
 
-chown -Rf nginx.nginx /var/www/html
+chown -Rf www-data.www-data /var/www/html
 
 exec /usr/bin/supervisord -n -c /etc/supervisord.conf
