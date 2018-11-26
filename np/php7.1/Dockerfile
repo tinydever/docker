@@ -4,8 +4,15 @@
 #
 FROM tinydever/php-alpine:fpm-7.1
 
+#nginx
 ENV NGINX_VERSION nginx-1.13.6
 ENV OPENRESTY_VERSION openresty-1.13.6.2
+
+#php-fpm
+ENV MAX_CHILDREN 50
+ENV START_SERVERS 5
+ENV MIN_SPARE_SERVERS 5
+ENV MAX_SPARE_SERVERS 35
 
 #not use default nginx form php-fpm user www-data
 #	addgroup -S nginx && \
