@@ -63,4 +63,4 @@ RUN chmod 755 /start.sh
 EXPOSE 443 80
 
 WORKDIR "/var/www/html"
-CMD ["/start.sh"]
+CMD ["sh", "/start.sh"]
