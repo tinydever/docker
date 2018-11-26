@@ -58,7 +58,7 @@ ADD start.sh /start.sh
 #VOLUME ["/var/log/nginx"]
 #VOLUME ["/var/www/html"]
 
-RUN chmod 755 /start.sh
+RUN chmod +x /start.sh
 
 EXPOSE 443 80
 
