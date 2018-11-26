@@ -55,12 +55,13 @@ ADD nginx.vh.default.conf /etc/openresty/nginx/conf/default.conf
 ADD supervisord.conf /etc/supervisord.conf
 ADD start.sh /start.sh
 
-VOLUME ["/var/log/nginx"]
-VOLUME ["/var/www/html"]
+#VOLUME ["/var/log/nginx"]
+#VOLUME ["/var/www/html"]
 
 RUN chmod 755 /start.sh
 
 EXPOSE 443 80
 
 WORKDIR "/var/www/html"
-CMD ["sh", "/start.sh"]
+CMD ["/start.sh"]
+
