@@ -49,7 +49,7 @@ RUN apk --update add git \
     rm -rf /var/cache/apk/* && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
-
+    
 ADD nginx.conf /etc/openresty/nginx/conf/nginx.conf
 ADD nginx.vh.default.conf /etc/openresty/nginx/conf/default.conf
 ADD supervisord.conf /etc/supervisord.conf
@@ -57,6 +57,8 @@ ADD start.sh /start.sh
 
 VOLUME ["/var/log/nginx"]
 VOLUME ["/var/www/html"]
+
+RUN chmod 755 /start.sh
 
 EXPOSE 443 80
 
