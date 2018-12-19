@@ -5,6 +5,7 @@
 FROM tinydever/php-alpine:fpm-7.1
 
 #nginx php-fpm
+#nginx php-fpm
 ENV NGINX_VERSION=nginx-1.13.6 \
     OPENRESTY_VERSION=openresty-1.13.6.2 \
     MAX_CHILDREN=50 \
@@ -22,6 +23,7 @@ RUN apk --update add git \
     perl \
     curl \
     sed \
+    bash \
     supervisor \
     build-base && \
     mkdir -p /tmp/src && \
